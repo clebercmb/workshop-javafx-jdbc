@@ -109,6 +109,7 @@ public class DepartmentListController implements Initializable{
 			//Injecting Department into DepartmetFormController
 			DepartmetFormController controller = loader.getController(); //Reference for DepartmetFormController
 			controller.setDepartment(obj); //Injecting Department into DepartmetFormController
+			controller.setDepartmentService(service);
 			controller.updateFormData(); //load Department into the Form Data 
  			
 			// In order to open a Modal Dialog Window in front of the existing Window, you have to instantiate a new Stage.
