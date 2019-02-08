@@ -1,18 +1,27 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.util.Alerts;
+import gui.util.Utils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
@@ -36,7 +45,10 @@ public class DepartmentListController implements Initializable{
 	private ObservableList<Department> obsList;
 	
 	@FXML
-	public void onBtNewAction() {
+	public void onBtNewAction(ActionEvent event) {
+		
+		Stage parentStage = Utils.currentStage(event);
+		createDialogForm("/gui/DepartmentForm.fxml", parentStage);
 		System.out.println("onBtNewAction");
 	}
 	
@@ -71,5 +83,44 @@ public class DepartmentListController implements Initializable{
 		
 		tableViewDepartment.setItems(obsList);
 		
+	}
+	
+	
+	/**
+	 * Function to load a Form Window that allows you to register a new Department
+	 * This function will have to be called from the new button  
+	 * 
+	 * @author Cleber Barbosa
+	 * @param abosoluteName	Form view to be open
+	 * @param parentStage	Parent 
+	 * @version 1.0 
+	 */
+	private void createDialogForm(String abosoluteName, Stage parentStage) {
+		try {
+			//########  Logic to open a Form Window  ############ 
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(abosoluteName));
+			Pane pane = loader.load();   // <== View loaded (Pane loaded) 
+			
+			// In order to open a Modal Dialog Window in front of the existing Window, you have to instantiate a new Stage.
+			// It is  a  Stage in front the other
+			Stage dialogStage = new Stage();  //Setting up a new Window
+			
+			//Setting up the new Stage
+			dialogStage.setTitle("Enter Department data");
+			dialogStage.setScene(new Scene(pane));  //Because it is a new Stage, there will be a new Scene 
+													//with "pane" object as its root element
+			dialogStage.setResizable(false);  
+			dialogStage.initOwner(parentStage); //Setting up the parent Stage of this new window
+			
+			dialogStage.initModality(Modality.WINDOW_MODAL);  	//It says that this Windows will be a Modal, 
+																//instead of having another behavior.
+																//It means that the new Window will be stuck(blocked).
+																//In other words, you will be able to access  the parent Window
+																//only after you close this new Modal Window.
+			dialogStage.showAndWait(); //Opens the new Window
+			
+		} catch (IOException e)  {
+			Alerts.showAlert("IOException", "Error loadingview", e.getMessage(), AlertType.ERROR);
+		}
 	}
 }

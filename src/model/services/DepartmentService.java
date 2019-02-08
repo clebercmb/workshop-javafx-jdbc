@@ -14,12 +14,7 @@ public class DepartmentService {
 	public List<Department> findAll() {
 		
 		var dpList =  dao.findAll();
-/*		
-		dpList.add(new Department(1, "Books"));
-		dpList.add(new Department(2, "Computers"));
-		dpList.add(new Department(2, "Eletronics"));
-*/		
-		
+				
 		return dpList;
 	}
 }
