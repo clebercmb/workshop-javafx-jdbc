@@ -102,13 +102,13 @@ public class DepartmentListController implements Initializable{
 			Pane pane = loader.load();   // <== View loaded (Pane loaded) 
 			
 			// In order to open a Modal Dialog Window in front of the existing Window, you have to instantiate a new Stage.
-			// It is  a  Stage in front the other
-			Stage dialogStage = new Stage();  //Setting up a new Window
+			// It will be  a  Stage (Windows) in front of the other
+			Stage dialogStage = new Stage();  //Create a new Window
 			
 			//Setting up the new Stage
 			dialogStage.setTitle("Enter Department data");
 			dialogStage.setScene(new Scene(pane));  //Because it is a new Stage, there will be a new Scene 
-													//with "pane" object as its root element
+													//with a "pane/view" object as its root element
 			dialogStage.setResizable(false);  
 			dialogStage.initOwner(parentStage); //Setting up the parent Stage of this new window
 			
