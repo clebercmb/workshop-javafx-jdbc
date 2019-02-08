@@ -48,7 +48,11 @@ public class DepartmentListController implements Initializable{
 	public void onBtNewAction(ActionEvent event) {
 		
 		Stage parentStage = Utils.currentStage(event);
-		createDialogForm("/gui/DepartmentForm.fxml", parentStage);
+		
+		Department obj = new Department();
+		createDialogForm(obj, "/gui/DepartmentForm.fxml", parentStage);  //<== Injecting Department into DepartmentFormController
+		
+		
 		System.out.println("onBtNewAction");
 	}
 	
@@ -91,16 +95,22 @@ public class DepartmentListController implements Initializable{
 	 * This function will have to be called from the new button  
 	 * 
 	 * @author Cleber Barbosa
+	 * @param obj  			Injecting Department into DepartmentFormController
 	 * @param abosoluteName	Form view to be open
 	 * @param parentStage	Parent 
 	 * @version 1.0 
 	 */
-	private void createDialogForm(String abosoluteName, Stage parentStage) {
+	private void createDialogForm(Department obj, String abosoluteName, Stage parentStage) {
 		try {
 			//########  Logic to open a Form Window  ############ 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(abosoluteName));
 			Pane pane = loader.load();   // <== View loaded (Pane loaded) 
 			
+			//Injecting Department into DepartmetFormController
+			DepartmetFormController controller = loader.getController(); //Reference for DepartmetFormController
+			controller.setDepartment(obj); //Injecting Department into DepartmetFormController
+			controller.updateFormData(); //load Department into the Form Data 
+ 			
 			// In order to open a Modal Dialog Window in front of the existing Window, you have to instantiate a new Stage.
 			// It will be  a  Stage (Windows) in front of the other
 			Stage dialogStage = new Stage();  //Create a new Window

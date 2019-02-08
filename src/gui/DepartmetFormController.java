@@ -9,9 +9,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import model.entities.Department;
 
 public class DepartmetFormController implements Initializable{
 
+	//Creating a dependency for Department
+	Department entity;
+	
 	//# Declaration of the components´ Window
 	@FXML
 	private TextField txtId;
@@ -28,6 +32,15 @@ public class DepartmetFormController implements Initializable{
 	@FXML
 	private Button btCancel;
 	
+	/**
+	 * Setting up Department dependency
+	 * 
+	 * @param entity
+	 */
+	public void setDepartment(Department entity) {
+		this.entity = entity;
+	}
+	
 	
 	//#Methods to handle the Buttons´ event
 	@FXML
@@ -39,7 +52,6 @@ public class DepartmetFormController implements Initializable{
 	public void onBtCancelAction() {
 		System.out.println("onBTCancelAction");
 	}
-	
 	
 		
 	@Override
@@ -54,4 +66,15 @@ public class DepartmetFormController implements Initializable{
 		Constraints.setTextFieldMaxLength(txtName, 30);
 	}
 
+	/**
+	 * Method to fill up Department Form with the Department dependency
+	 */
+	public void updateFormData() {
+		if (entity ==  null) {
+			throw new IllegalStateException("Entity was null");
+		}
+		txtId.setText(String.valueOf(entity.getId()));
+		txtName.setText(entity.getName());
+	}
+	
 }
