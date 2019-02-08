@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -26,7 +27,7 @@ import javafx.stage.Stage;
 import model.entities.Department;
 import model.services.DepartmentService;
 
-public class DepartmentListController implements Initializable{
+public class DepartmentListController implements Initializable, DataChangeListener{
 
 	private DepartmentService service;
 	
@@ -110,7 +111,9 @@ public class DepartmentListController implements Initializable{
 			DepartmetFormController controller = loader.getController(); //Reference for DepartmetFormController
 			controller.setDepartment(obj); //Injecting Department into DepartmetFormController
 			controller.setDepartmentService(service);
+			controller.subscribDataChangeListener(this);
 			controller.updateFormData(); //load Department into the Form Data 
+			
  			
 			// In order to open a Modal Dialog Window in front of the existing Window, you have to instantiate a new Stage.
 			// It will be  a  Stage (Windows) in front of the other
@@ -133,5 +136,12 @@ public class DepartmentListController implements Initializable{
 		} catch (IOException e)  {
 			Alerts.showAlert("IOException", "Error loadingview", e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+
+	@Override
+	public void onDataChanged() {
+		updateTableView();
+		
 	}
 }
